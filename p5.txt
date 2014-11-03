@@ -79,7 +79,7 @@ Sí.
  86.64.162.35
  
  ** ¿A qué puerto (del servidor Registrar) se envían los paquetes SIP?
- 5060
+ 5060.
  
  ** ¿Qué método SIP utiliza el UA para registrarse?
  REGISTER
