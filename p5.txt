@@ -72,7 +72,7 @@ Se pide resolución inversa de DNS, es una funcionalidad de Ekiga que no sabemos
  El protocolo STUN se utiliza para averiguar la IP pública (aunque ya la conocíamos por el GET de HTTP) y establecer la conexión cuando los extremos se encuentran detrás de enrutados NAT.
  
  ** ¿Estamos tras un NAT?
-Sí.
+ Sí.
 
 8. La trama 46 es la primera trama SIP. En un entorno como el de Internet, lo habitual es desconocer la dirección IP de la otra parte al realizar una llamada. Por eso, todo usuario registra su localización en un servidor Registrar. El Registrar guarda información sobre los usuarios en un servidor de localización que puede ser utilizado para localizar usuarios.
  ** ¿Qué dirección IP tiene el servidor Registrar?
@@ -85,33 +85,55 @@ Sí.
  REGISTER
  
  ** Además de REGISTER, ¿qué instrucciones SIP entiende el UA?
-INVITE, ACK, OPTIONS, BYE, CANCEL, NOTIFY, REFER, MESSAGE
+ INVITE, ACK, OPTIONS, BYE, CANCEL, NOTIFY, REFER, MESSAGE
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
 
 9. Fijémonos en las tramas siguientes a la número 46:
  ** ¿Se registra con éxito en el primer intento?
+ No, en el primer intento recibe un mensaje "401 Unauthorized"
+ 
  ** ¿Cómo sabemos si el registro se ha realizado correctamente o no?
+ Porque recibimos un mensaje "200 OK".
+ 
  ** ¿Podrías identificar las diferencias entre el primer intento y el segundo de registro? (fíjate en el tamaño de los paquetes y mira a qué se debe el cambio)
+ En el segundo intento se añade una cabecera "Authorization".
+ 
  ** ¿Cuánto es el valor del tiempo de expiración de la sesión? Indica las unidades.
-
+ 3600 segundos.
 
 10. Una vez registrados, podemos efectuar una llamada. Vamos a probar con el servicio de eco de Ekiga que nos permite comprobar si nos hemos conectado correctamente. El servicio de eco tiene la dirección sip:500@ekiga.net. Veamos el INVITE de cerca.
  ** ¿Puede verse el nombre del que efectúa la llamada, así como su dirección SIP?
+ Sí, el nombre es "Gregorio Robles". La dirección SIP es sip:grex@ekiga.net.
+ 
  ** ¿Qué es lo que contiene el cuerpo de la trama? ¿En qué formato/protocolo está?
+ El cuerpo contiene la descripción de la sesión, mediante el protocolo SDP.
+ 
  ** ¿Tiene éxito el primer intento? ¿Cómo lo sabes?
+ No, porque no se recibe un "200 OK" por parte del servidor Registrar.
+ 
  ** ¿En qué se diferencia el segundo INVITE más abajo del primero? ¿A qué crees que se debe esto?
+ El segundo lleva incluída la cabecera "Proxy-Authorization". Se debe a que el cliente debe autenticarse con el servidor proxy.
 
 
 11. Una vez conectado, estudia el intercambio de tramas.
  ** ¿Qué protocolo(s) se utiliza(n)? ¿Para qué sirven estos protocolos?
+ H.261: es un estándar de compresión de vídeo.
+ RTP: protocolo para transmisión en tiempo real.
+ 
  ** ¿Cuál es el tamaño de paquete de los mismos?
+ Todos los paquetes RTP tienen un tamaño de 214 bits, mientras que el tamaño de los H.261 varía de unos paquetes a otros, entre unos 200 y unos 1100 bits.
+ 
  ** ¿Se utilizan bits de padding?
+ No se utilizan bits de padding, ya que el campo padding de las tramas vale 0.
+ 
  ** ¿Cuál es la periodicidad de los paquetes que se envían?
+ Fijándonos en los paquetes de audio RTP, cada uno tiene un tamaño de 160 bytes. En el estándar G.711 se especifica que la velocidad de transmisión en RTP es de 64 Kbps, es decir 8000 bytes/segundo. Por tanto la periodicidad es de 160/8000 = 0.02 segundos.
+ 
  ** ¿Cuántos bits/segundo estamos enviando?
-
-
+ Como he comentado en la respuesta anterior, estamos enviando 64 Kbps, es decir, 64000 bits/segundo.
+ 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
 
