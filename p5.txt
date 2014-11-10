@@ -145,36 +145,67 @@ Se pide resolución inversa de DNS, es una funcionalidad de Ekiga que no sabemos
 
 12. Vamos a ver más a fondo el intercambio RTP. En Telephony hay una opción RTP. Empecemos mirando los flujos RTP.
  ** ¿Cuántos flujos hay? ¿por qué?
+Hay dos flujos, uno de envío de vídeo al puerto 19062 (mediante el protocolo H.261) y otro de envío de audio al puerto 12440 (mediante el estándar G711a).
+ 
  ** ¿Cuántos paquetes se pierden?
+ No se pierde ningún paquete.
+ 
  ** ¿Cuál es el valor máximo del delta? ¿Y qué es lo que significa el valor de delta?
+ El valor máximo de delta es de 1290.48 ms. 
+ El valor de delta representa el retardo o latencia, es decir, el tiempo que invierte un paquete en ir de un punto origen a un punto destino.
+ 
  ** ¿Cuáles son los valores de jitter (medio y máximo)? ¿Qué quiere decir eso? ¿Estamos ante una conversación de calidad?
+ El valor máximo de jitter es de 183.10 ms y el medio de 153.24 ms.
+ El jitter representa la variación de los tiempos de llegada de los paquetes (por congestión en la red, pérdida de sincronización o por las diferentes rutas que toman los paquetes).
+ Para una conversación de calidad, el jitter entre los puntos inicial y final en una comunicación debería ser inferior a 100ms. En este caso, como el valor medio está por encima de 153.24 ms, la conversación no es de calidad.
+
 
 
 13. Elige un paquete RTP de audio. Analiza el flujo de audio en Telephony -> RTP -> Stream Analysis.
  ** ¿Cuánto valen el delta y el jitter para el primer paquete que ha llegado?
+ Tanto el delta como el jitter tienen un valor nulo.
+ 
  ** ¿Podemos saber si éste es el primer paquete que nos han enviado?
+ 
+ 
  ** Los valores de jitter son menores de 10ms hasta un paquete dado. ¿Cuál?
+ Hasta el paquete 247.
+ 
  ** ¿A qué se debe el cambio tan brusco del jitter?
+ A que dicho paquete llega con un retardo elevado, 554.74 ms.
+ 
  ** ¿Es comparable este cambio con el tiempo desde la recepción del paquete anterior? ¿Por qué?
+ 
  ** ¿Cuál es la dependencia entre el tiempo transcurrido desde el paquete anterior y el valor de jitter?
 
 
 14. En Telephony selecciona el menú VoIP calls. Verás que se lista la llamada de voz IP capturada en una ventana emergente. Selecciona esa llamada y pulsa el botón Graph.
  ** ¿Cuánto dura la conversación?
+ 39.230 segundos.
+ 
  ** ¿Cuáles son sus SSRC? ¿Por qué hay varios SSRCs? ¿Hay CSRCs?
+ 
 
 
 15. Identifica la trama donde se finaliza la conversación.
  ** ¿Qué método SIP se utiliza?
+ Método BYE
+ 
  ** ¿En qué trama(s)?
+ 924, 925, 927 y 933.
+ 
  ** ¿Por qué crees que se envía varias veces?
 
 
 16. Finalmente, se cierra la aplicación de VozIP.
  ** ¿Por qué aparece una instrucción SIP del tipo REGISTER?
+ Porque para finalizar sesión en SIP se envía un REGISTER con tiempo 0.
+ 
  ** ¿En qué trama sucede esto?
+ En la 950.
+ 
  ** ¿En qué se diferencia con la instrucción que se utilizó con anterioridad (al principio de la sesión)?
-
+ En que el tiempo es 0.
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
