@@ -129,10 +129,16 @@ Se pide resolución inversa de DNS, es una funcionalidad de Ekiga que no sabemos
  No se utilizan bits de padding, ya que el campo padding de las tramas vale 0.
  
  ** ¿Cuál es la periodicidad de los paquetes que se envían?
- Fijándonos en los paquetes de audio RTP, cada uno tiene un tamaño de 160 bytes. En el estándar G.711 se especifica que la velocidad de transmisión en RTP es de 64 Kbps, es decir 8000 bytes/segundo. Por tanto la periodicidad es de 160/8000 = 0.02 segundos.
+ Fijándonos en los paquetes de audio RTP, cada uno tiene un tamaño de 160 bytes. En el estándar G.711 se especifica que la velocidad de transmisión en RTP es de 64 Kbps.
+ Pasamos a Bytes: 
+ 64 Kbits * 1024 bits/Kbit = 65536 bits
+ 65536 / 8 bits/bytes = 8192 Bytes
+ Por tanto, la velocidad de transmisión es de 8192 Bytes/segundo.
+ Entonces, la periodicidad será 160 Bytes / 8192 Bytes/segundo = 0.0195 segundos, es decir 19.5 ms.
+
  
  ** ¿Cuántos bits/segundo estamos enviando?
- Como he comentado en la respuesta anterior, estamos enviando 64 Kbps, es decir, 64000 bits/segundo.
+ Estamos enviando 65536 bits/segundo.
  
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
